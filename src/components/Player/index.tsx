@@ -202,7 +202,7 @@ export const Player: React.FC<PlayerProps> = ({
           ))
         )}
         {!!state.duration && (
-          <Rail value={(state.time || 0) / state.duration} color={seek.isSliding ? `rgba(${accent[0]},${accent[1]},${accent[2]},.5)` : `rgb(${accent[0]},${accent[1]},${accent[2]})`} />
+          <Rail value={(state.time || 0) / state.duration} color={state.paused ? color.shade(.4) : seek.isSliding ? `rgba(${accent[0]},${accent[1]},${accent[2]},.5)` : `rgb(${accent[0]},${accent[1]},${accent[2]})`} />
         )}
         {!!seek.isSliding && (
           <Rail value={seek.value} color={`rgba(${accent[0]},${accent[1]},${accent[2]},.6)`} />
