@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-export interface Props extends React.SVGAttributes<any> {
+export interface Props extends React.SVGProps<SVGSVGElement> {
 
 }
 
-const Pause: React.FC = (props) => {
+const Pause: React.FC<Props> = (props) => {
   return (
     <svg {...props} viewBox="0 0 18 18">
       <path d="M6,1 L3,1 C2.4,1 2,1.4 2,2 L2,16 C2,16.6 2.4,17 3,17 L6,17 C6.6,17 7,16.6 7,16 L7,2 C7,1.4 6.6,1 6,1 L6,1 Z"></path>

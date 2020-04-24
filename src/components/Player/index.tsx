@@ -39,6 +39,16 @@ export interface PlayerProps {
   src: string;
 
   /**
+   * Shade of grey to use as base color for player. Must be number from 0 to 255.
+   */
+  grey: number;
+
+  /**
+   * Accent color 3-tuple of numbers from 0 to 255, representing RGB color.
+   */
+  accent: [number, number, number];
+
+  /**
    * Whether to autoplay the audio on mount.
    */
   autoPlay?: boolean;
@@ -54,12 +64,17 @@ export interface PlayerProps {
   state?: React.MutableRefObject<HTMLMediaState>;
 
   /**
+   * Get reference to HTML <audio> element.
+   */
+  audio?: React.MutableRefObject<HTMLAudioElement | null>;
+
+  /**
    * Callback called every time player state changes.
    */
   onState?: (state: HTMLMediaState) => void,
 }
 
-export const Player: React.FC<PlayerProps> = ({src, autoPlay, controls: controlsRef, state: stateRef, onState}) => {
+export const Player: React.FC<PlayerProps> = ({src, grey = 250, accent = [255, 0, 0], autoPlay, controls: controlsRef, state: stateRef, audio: audioRef, onState}) => {
   const [audio, state, controls, ref] = useAudio({
     src,
     autoPlay: !!autoPlay,
@@ -67,19 +82,28 @@ export const Player: React.FC<PlayerProps> = ({src, autoPlay, controls: controls
 
   if (stateRef) stateRef.current = state;
   if (controlsRef) controlsRef.current = controls;
+  if (audioRef) audioRef.current = ref.current;
 
   useEffect(() => {
     if (onState) onState(state);
   }, [state]);
 
+  const style: React.CSSProperties = {
+    background: `rgb(${grey}, ${grey}, ${grey})`,
+  };
+
+  const playIconStyle: React.CSSProperties = {
+    fill: `rgba(${accent[0]},${accent[1]},${accent[2]},.9)`,
+  };
+
   return (
-    <div className={blockClass}>
+    <div className={blockClass} style={style}>
       {audio}
       <button className={playButtonClass} onClick={() => {
         if (state.paused) controls.play();
         else controls.pause();
       }}>
-        {state.paused ? <IconPlay /> : <IconPause />}
+        {state.paused ? <IconPlay style={playIconStyle} /> : <IconPause />}
       </button>
     </div>
   );
