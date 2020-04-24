@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-export interface Props extends React.SVGProps<SVGSVGElement> {
-
-}
+export interface Props extends React.SVGProps<SVGSVGElement> {}
 
 const Pause: React.FC<Props> = (props) => {
   return (

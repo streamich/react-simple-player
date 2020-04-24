@@ -15,9 +15,7 @@ const Demo = () => {
         <Player src={mp3[0]} autoPlay onState={setState} />
       </div>
       <div>
-        <pre>
-          {JSON.stringify(state, null, 4)}
-        </pre>
+        <pre>{JSON.stringify(state, null, 4)}</pre>
       </div>
     </div>
   );
@@ -25,8 +23,8 @@ const Demo = () => {
 
 storiesOf('components/Player', module)
   .add('Default', () => {
-    return <Player src={mp3[0]} autoPlay />
+    return <Player src={mp3[0]} autoPlay />;
   })
   .add('Demo', () => {
-    return <Demo />
-  })
+    return <Demo />;
+  });

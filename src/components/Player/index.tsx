@@ -41,12 +41,12 @@ export interface PlayerProps {
   /**
    * Shade of grey to use as base color for player. Must be number from 0 to 255.
    */
-  grey: number;
+  grey?: number;
 
   /**
    * Accent color 3-tuple of numbers from 0 to 255, representing RGB color.
    */
-  accent: [number, number, number];
+  accent?: [number, number, number];
 
   /**
    * Whether to autoplay the audio on mount.
@@ -71,10 +71,19 @@ export interface PlayerProps {
   /**
    * Callback called every time player state changes.
    */
-  onState?: (state: HTMLMediaState) => void,
+  onState?: (state: HTMLMediaState) => void;
 }
 
-export const Player: React.FC<PlayerProps> = ({src, grey = 250, accent = [255, 0, 0], autoPlay, controls: controlsRef, state: stateRef, audio: audioRef, onState}) => {
+export const Player: React.FC<PlayerProps> = ({
+  src,
+  grey = 250,
+  accent = [255, 0, 0],
+  autoPlay,
+  controls: controlsRef,
+  state: stateRef,
+  audio: audioRef,
+  onState,
+}) => {
   const [audio, state, controls, ref] = useAudio({
     src,
     autoPlay: !!autoPlay,
@@ -99,10 +108,13 @@ export const Player: React.FC<PlayerProps> = ({src, grey = 250, accent = [255, 0
   return (
     <div className={blockClass} style={style}>
       {audio}
-      <button className={playButtonClass} onClick={() => {
-        if (state.paused) controls.play();
-        else controls.pause();
-      }}>
+      <button
+        className={playButtonClass}
+        onClick={() => {
+          if (state.paused) controls.play();
+          else controls.pause();
+        }}
+      >
         {state.paused ? <IconPlay style={playIconStyle} /> : <IconPause />}
       </button>
     </div>
