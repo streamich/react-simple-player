@@ -7,7 +7,9 @@ import IconPause from '../../icons/Pause';
 
 const {useEffect} = React;
 
-export const height = 100;
+export const height = 64;
+export type PlayerState = HTMLMediaState;
+export type PlayerControls = HTMLMediaControls;
 
 const blockClass = rule({
   d: 'flex',
