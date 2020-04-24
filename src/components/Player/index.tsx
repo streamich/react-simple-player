@@ -10,8 +10,9 @@ import IconMuted from '../../icons/Muted';
 import {Rail} from '../Rail';
 import {RailWrap} from '../RailWrap';
 import {Volume} from '../Volume';
+import createColorManager from './createColorManager';
 
-const {useRef, useEffect} = React;
+const {useRef, useEffect, useState, useMemo} = React;
 
 export const defaultHeight = 64;
 
@@ -80,12 +81,13 @@ export interface PlayerProps {
   src: string;
 
   /**
-   * Shade of grey to use as base color for player. Must be number from 0 to 255.
+   * Shade of grey to use as base color for player. 3-tuple of numbers in
+   * 0 to 255 range, representing an RGB color.
    */
-  grey?: number;
+  grey?: [number, number, number];
 
   /**
-   * Accent color 3-tuple of numbers from 0 to 255, representing RGB color.
+   * Accent color 3-tuple of numbers from 0 to 255, representing an RGB color.
    */
   accent?: [number, number, number];
 
@@ -128,7 +130,7 @@ export interface PlayerProps {
 export const Player: React.FC<PlayerProps> = ({
   src,
   height = defaultHeight,
-  grey = 250,
+  grey = [246, 248, 250],
   accent = [255, 0, 0],
   autoPlay,
   hideVolume,
@@ -137,6 +139,8 @@ export const Player: React.FC<PlayerProps> = ({
   audio: audioRef,
   onState,
 }) => {
+  const color = useMemo(() => createColorManager(grey, accent), [...grey, ...accent]);
+  const [hovered, setHovered] = useState(false);
   const [audio, state, controls, ref] = useAudio({
     src,
     autoPlay: !!autoPlay,
@@ -165,7 +169,7 @@ export const Player: React.FC<PlayerProps> = ({
   }, [state]);
 
   const style: React.CSSProperties = {
-    background: `rgb(${grey}, ${grey}, ${grey})`,
+    background: hovered ? color.shift(-6) : color.shift(0),
   };
 
   const playIconStyle: React.CSSProperties = {
@@ -191,10 +195,10 @@ export const Player: React.FC<PlayerProps> = ({
   const seekArea = (
     <span ref={seekAreaRef} className={seekAreaClass}>
       <RailWrap>
-        <Rail value={1} color={'rgba(0,0,0,.04)'} />
+        <Rail value={1} color={color.shade(.04)} />
         {!!state.duration && !!state.buffered && (
           state.buffered.map(({start, end}: {start: number, end: number}) => (
-            <Rail value={(end - start) / state.duration} skip={start / state.duration} color={'rgba(0,0,0,.04)'} />
+            <Rail value={(end - start) / state.duration} skip={start / state.duration} color={color.shade(.04)} />
           ))
         )}
         {!!state.duration && (
@@ -217,7 +221,7 @@ export const Player: React.FC<PlayerProps> = ({
   );
 
   return (
-    <span className={blockClass} style={style}>
+    <span className={blockClass} style={style} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       {audio}
       {mainButton}
       {seekArea}
@@ -226,6 +230,8 @@ export const Player: React.FC<PlayerProps> = ({
         <Volume
           value={state.volume || 0}
           onChange={(value) => controls.volume(value)}
+          bg={color.shade(.04)}
+          rail={color.shade(.08)}
         />
       )}
     </span>

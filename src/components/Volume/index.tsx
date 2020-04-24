@@ -18,10 +18,12 @@ const volumeSliderClass = rule({
 
 export interface VolumeProps {
   value: number;
+  bg: string;
+  rail: string;
   onChange: (value: number) => void;
 }
 
-export const Volume: React.FC<VolumeProps> = ({value, onChange}) => {
+export const Volume: React.FC<VolumeProps> = ({value, bg, rail, onChange}) => {
   const volumeRef = useRef<HTMLSpanElement>(null);
   useSlider(volumeRef, {
     onScrub: onChange,
@@ -30,9 +32,9 @@ export const Volume: React.FC<VolumeProps> = ({value, onChange}) => {
   return (
     <span ref={volumeRef} className={volumeSliderClass}>
       <RailWrap>
-        <Rail value={1} color={'rgba(0,0,0,.04)'} />
+        <Rail value={1} color={bg} />
         {!!value && (
-          <Rail value={value} color={'rgba(0,0,0,.04)'} />
+          <Rail value={value} color={rail} />
         )}
       </RailWrap>
     </span>
