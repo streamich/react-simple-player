@@ -15,6 +15,7 @@ import formatTime from './formatTime';
 
 const {useRef, useEffect, useState, useMemo} = React;
 
+const ff = '"Open Sans",Roboto,sans-serif';
 export const defaultHeight = 64;
 
 export type PlayerState = HTMLMediaState;
@@ -54,7 +55,7 @@ const seekAreaClass = rule({
 
 const tooltipClass = rule({
   pos: 'absolute',
-  op: .8,
+  op: .9,
 });
 
 const tooltipInnerClass = rule({
@@ -62,7 +63,7 @@ const tooltipInnerClass = rule({
   mar: '0 0 0 -50%',
   pad: '4px 8px',
   fz: '12px',
-  ff: 'sans-serif',
+  ff,
   bdrad: '3px',
   whiteSpace: 'nowrap',
 });
@@ -71,7 +72,7 @@ const timeClass = rule({
   whiteSpace: 'nowrap',
   userSelect: 'none',
   pad: '0 0 0 16px',
-  ff: '"Open Sans",Roboto,sans-serif',
+  ff,
   fz: '12px',
 });
 
@@ -190,7 +191,8 @@ export const Player: React.FC<PlayerProps> = ({
   };
 
   const playIconStyle: React.CSSProperties = {
-    fill: `rgba(${accent[0]},${accent[1]},${accent[2]},.9)`,
+    fill: color.contrast(.85),
+    // fill: `rgba(${accent[0]},${accent[1]},${accent[2]},.9)`,
   };
 
   if (height !== defaultHeight) {
@@ -205,17 +207,17 @@ export const Player: React.FC<PlayerProps> = ({
           else controls.pause();
         }}
       >
-      {state.paused ? <IconPlay style={playIconStyle} /> : <IconPause />}
+      {state.paused ? <IconPlay style={playIconStyle} /> : <IconPause style={{fill: color.contrast(.85)}} />}
     </button>
   );
 
   const seekArea = (
     <span ref={seekAreaRef} className={seekAreaClass}>
       <RailWrap>
-        <Rail value={1} color={color.shade(.04)} />
+        <Rail value={1} color={color.contrast(.08)} />
         {!!state.duration && !!state.buffered && (
           state.buffered.map(({start, end}: {start: number, end: number}) => (
-            <Rail value={(end - start) / state.duration} skip={start / state.duration} color={color.shade(.04)} />
+            <Rail value={(end - start) / state.duration} skip={start / state.duration} color={color.contrast(.08)} />
           ))
         )}
         {!!state.duration && (
@@ -240,7 +242,7 @@ export const Player: React.FC<PlayerProps> = ({
       if (state.muted) controls.unmute();
       else controls.mute();
     }}>
-      {state.muted || !state.volume ? <IconMuted /> : <IconVolume />}
+      {state.muted || !state.volume ? <IconMuted style={{fill: color.contrast(.85)}} /> : <IconVolume style={{fill: color.contrast(.85)}} />}
     </button>
   );
 
@@ -250,7 +252,7 @@ export const Player: React.FC<PlayerProps> = ({
       {mainButton}
       {seekArea}
       {!!state.duration && (
-        <span className={timeClass}>
+        <span className={timeClass} style={{color: color.contrast(.85)}}>
           {formatTime(state.time) + ' / ' + formatTime(state.duration)}
         </span>
       )}
@@ -259,8 +261,8 @@ export const Player: React.FC<PlayerProps> = ({
         <Volume
           value={state.volume || 0}
           onChange={(value) => controls.volume(value)}
-          bg={color.shade(.04)}
-          rail={color.shade(.08)}
+          bg={color.contrast(.06)}
+          rail={color.contrast(.12)}
         />
       )}
     </span>

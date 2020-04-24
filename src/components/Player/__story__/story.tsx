@@ -48,3 +48,12 @@ storiesOf('components/Player', module)
       </div>
     )
   })
+  .add('Dark mode', () => {
+    return (
+      <div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={48} grey={[30, 32, 34]} />
+        </div>
+      </div>
+    )
+  })
