@@ -2,7 +2,8 @@ import * as React from 'react';
 import {rule} from 'p4-css';
 
 const blockClass = rule({
-  d: 'flex',
+  d: 'inline-block',
+  pos: 'absolute',
   h: '100%',
   minH: '5px',
 });

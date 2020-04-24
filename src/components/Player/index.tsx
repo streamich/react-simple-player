@@ -4,10 +4,13 @@ import useAudio from 'react-use/lib/useAudio';
 import {HTMLMediaState, HTMLMediaControls} from 'react-use/lib/util/createHTMLMediaHook';
 import IconPlay from '../../icons/Play';
 import IconPause from '../../icons/Pause';
+import { Rail } from '../Rail';
 
 const {useEffect} = React;
 
 export const height = 64;
+export const railHeight = 8;
+
 export type PlayerState = HTMLMediaState;
 export type PlayerControls = HTMLMediaControls;
 
@@ -30,6 +33,22 @@ const playButtonClass = rule({
     w: '18px',
     h: '18px',
   },
+});
+
+const seekAreaClass = rule({
+  d: 'flex',
+  flex: '1 1 100%',
+  alignItems: 'center',
+  h: height + 'px',
+});
+
+const railClass = rule({
+  d: 'flex',
+  w: '100%',
+  h: railHeight + 'px',
+  pos: 'relative',
+  bdrad: '2px',
+  ov: 'hidden',
 });
 
 export interface PlayerProps {
@@ -105,18 +124,34 @@ export const Player: React.FC<PlayerProps> = ({
     fill: `rgba(${accent[0]},${accent[1]},${accent[2]},.9)`,
   };
 
-  return (
-    <div className={blockClass} style={style}>
-      {audio}
-      <button
+  const mainButton = (
+    <button
         className={playButtonClass}
         onClick={() => {
           if (state.paused) controls.play();
           else controls.pause();
         }}
       >
-        {state.paused ? <IconPlay style={playIconStyle} /> : <IconPause />}
-      </button>
-    </div>
+      {state.paused ? <IconPlay style={playIconStyle} /> : <IconPause />}
+    </button>
+  );
+
+  const seek = (
+    <span className={seekAreaClass}>
+      <span className={railClass}>
+        <Rail value={1} color={'rgba(0,0,0,.04)'} />
+        {!!state.duration && (
+          <Rail value={(state.time || 0) / state.duration} color={'rgba(0,0,0,.04)'} />
+        )}
+      </span>
+    </span>
+  );
+
+  return (
+    <span className={blockClass} style={style}>
+      {audio}
+      {mainButton}
+      {seek}
+    </span>
   );
 };
