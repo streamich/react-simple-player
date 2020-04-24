@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {storiesOf} from '@storybook/react';
-import Test from '..';
+import {Rail} from '..';
 
-storiesOf('components/Test', module)
+storiesOf('components/Rail', module)
   .add('Default', () => {
-    return <Test />
-  });
+    return <Rail value={.8} />;
+  })
