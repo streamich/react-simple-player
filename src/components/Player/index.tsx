@@ -7,12 +7,13 @@ import IconPlay from '../../icons/Play';
 import IconPause from '../../icons/Pause';
 import IconVolume from '../../icons/Volume';
 import IconMuted from '../../icons/Muted';
-import { Rail } from '../Rail';
+import {Rail} from '../Rail';
+import {RailWrap} from '../RailWrap';
+import {Volume} from '../Volume';
 
 const {useRef, useEffect} = React;
 
 export const defaultHeight = 64;
-export const railHeight = 8;
 
 export type PlayerState = HTMLMediaState;
 export type PlayerControls = HTMLMediaControls;
@@ -48,15 +49,6 @@ const seekAreaClass = rule({
   cur: 'pointer',
 });
 
-const railClass = rule({
-  d: 'flex',
-  w: '100%',
-  h: railHeight + 'px',
-  pos: 'relative',
-  bdrad: '2px',
-  ov: 'hidden',
-});
-
 const volumeButtonClass = rule({
   d: 'flex',
   alignItems: 'center',
@@ -70,6 +62,15 @@ const volumeButtonClass = rule({
     w: '18px',
     h: '18px',
   },
+});
+
+const volumeSliderClass = rule({
+  d: 'flex',
+  flex: '0 0 100px',
+  w: '100px',
+  h: '100%',
+  alignItems: 'center',
+  cur: 'pointer',
 });
 
 export interface PlayerProps {
@@ -99,6 +100,11 @@ export interface PlayerProps {
   autoPlay?: boolean;
 
   /**
+   * Whether to hide volume slider.
+   */
+  hideVolume?: boolean;
+
+  /**
    * React mutable ref which will be set to contain audio player controls.
    */
   controls?: React.MutableRefObject<HTMLMediaControls>;
@@ -125,6 +131,7 @@ export const Player: React.FC<PlayerProps> = ({
   grey = 250,
   accent = [255, 0, 0],
   autoPlay,
+  hideVolume,
   controls: controlsRef,
   state: stateRef,
   audio: audioRef,
@@ -183,7 +190,7 @@ export const Player: React.FC<PlayerProps> = ({
 
   const seekArea = (
     <span ref={seekAreaRef} className={seekAreaClass}>
-      <span className={railClass}>
+      <RailWrap>
         <Rail value={1} color={'rgba(0,0,0,.04)'} />
         {!!state.duration && (
           <Rail value={(state.time || 0) / state.duration} color={seek.isSliding ? `rgba(${accent[0]},${accent[1]},${accent[2]},.5)` : `rgb(${accent[0]},${accent[1]},${accent[2]})`} />
@@ -191,7 +198,7 @@ export const Player: React.FC<PlayerProps> = ({
         {!!seek.isSliding && (
           <Rail value={seek.value} color={`rgba(${accent[0]},${accent[1]},${accent[2]},.6)`} />
         )}
-      </span>
+      </RailWrap>
     </span>
   );
 
@@ -210,6 +217,12 @@ export const Player: React.FC<PlayerProps> = ({
       {mainButton}
       {seekArea}
       {volumeButton}
+      {!hideVolume && (
+        <Volume
+          value={state.volume || 0}
+          onChange={(value) => controls.volume(value)}
+        />
+      )}
     </span>
   );
 };
