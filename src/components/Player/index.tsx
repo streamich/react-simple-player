@@ -54,8 +54,6 @@ const seekAreaClass = rule({
 
 const tooltipClass = rule({
   pos: 'absolute',
-  top: '-8px',
-  left: 0,
   op: .8,
 });
 
@@ -67,6 +65,14 @@ const tooltipInnerClass = rule({
   ff: 'sans-serif',
   bdrad: '3px',
   whiteSpace: 'nowrap',
+});
+
+const timeClass = rule({
+  whiteSpace: 'nowrap',
+  userSelect: 'none',
+  pad: '0 0 0 16px',
+  ff: '"Open Sans",Roboto,sans-serif',
+  fz: '12px',
 });
 
 const volumeButtonClass = rule({
@@ -219,10 +225,10 @@ export const Player: React.FC<PlayerProps> = ({
           <Rail value={seek.value} color={`rgba(${accent[0]},${accent[1]},${accent[2]},.6)`} />
         )}
       </RailWrap>
-      {!!state.duration && hovered && (
-        <span className={tooltipClass} style={{left: seek.isSliding ? `${100 * seek.value}%` : `${100 * state.time / state.duration}%`}}>
+      {!!state.duration && seek.isSliding && (
+        <span className={tooltipClass} style={{top: ((-30 + (height / 2)) + 'px'), left: seek.isSliding ? `${100 * seek.value}%` : `${100 * state.time / state.duration}%`}}>
           <span className={tooltipInnerClass} style={{background: '#000', color: '#fff'}}>
-            {seek.isSliding ? formatTime(seek.value * state.duration) : formatTime(state.time)} / {formatTime(state.duration)}
+            {formatTime(seek.value * state.duration)}
           </span>
         </span>
       )}
@@ -243,6 +249,11 @@ export const Player: React.FC<PlayerProps> = ({
       {audio}
       {mainButton}
       {seekArea}
+      {!!state.duration && (
+        <span className={timeClass}>
+          {formatTime(state.time) + ' / ' + formatTime(state.duration)}
+        </span>
+      )}
       {volumeButton}
       {!hideVolume && (
         <Volume

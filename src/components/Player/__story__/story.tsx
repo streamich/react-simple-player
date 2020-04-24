@@ -29,4 +29,22 @@ storiesOf('components/Player', module)
   })
   .add('Demo', () => {
     return <Demo />;
-  });
+  })
+  .add('Hight scale', () => {
+    return (
+      <div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={30} />
+        </div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={50} />
+        </div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={80} />
+        </div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={128} />
+        </div>
+      </div>
+    )
+  })
