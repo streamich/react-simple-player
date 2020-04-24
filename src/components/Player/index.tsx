@@ -192,6 +192,11 @@ export const Player: React.FC<PlayerProps> = ({
     <span ref={seekAreaRef} className={seekAreaClass}>
       <RailWrap>
         <Rail value={1} color={'rgba(0,0,0,.04)'} />
+        {!!state.duration && !!state.buffered && (
+          state.buffered.map(({start, end}: {start: number, end: number}) => (
+            <Rail value={(end - start) / state.duration} skip={start / state.duration} color={'rgba(0,0,0,.04)'} />
+          ))
+        )}
         {!!state.duration && (
           <Rail value={(state.time || 0) / state.duration} color={seek.isSliding ? `rgba(${accent[0]},${accent[1]},${accent[2]},.5)` : `rgb(${accent[0]},${accent[1]},${accent[2]})`} />
         )}
