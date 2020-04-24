@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/streamich/react-simple-player/compare/v1.0.0...v1.0.1) (2020-04-24)
+
+
+### Bug Fixes
+
+* 🐛 add index.js ([e3c0262](https://github.com/streamich/react-simple-player/commit/e3c02625adbd37885dd49387b06d4739ca701705))
+
 # 1.0.0 (2020-04-24)
 
 
