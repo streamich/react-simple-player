@@ -45,6 +45,7 @@ const seekAreaClass = rule({
   flex: '1 1 100%',
   alignItems: 'center',
   h: '100%',
+  cur: 'pointer',
 });
 
 const railClass = rule({
@@ -133,10 +134,18 @@ export const Player: React.FC<PlayerProps> = ({
     src,
     autoPlay: !!autoPlay,
   });
+
+  const latestState = useRef<PlayerState>(state)
+  latestState.current = state;
+
+  const latestControls = useRef<PlayerControls>(controls)
+  latestControls.current = controls;
+
   const seekAreaRef = useRef<HTMLSpanElement>(null);
   const seek = useSlider(seekAreaRef, {
-    onScrubStop: () => {
-      alert(seek.value);
+    onScrubStop: (value) => {
+      if (!latestState.current.duration) return;
+      latestControls.current.seek(Math.round(latestState.current.duration * value));
     },
   });
 
@@ -176,11 +185,11 @@ export const Player: React.FC<PlayerProps> = ({
     <span ref={seekAreaRef} className={seekAreaClass}>
       <span className={railClass}>
         <Rail value={1} color={'rgba(0,0,0,.04)'} />
-        {!!state.duration && !seek.isSliding && (
-          <Rail value={(state.time || 0) / state.duration} color={'rgba(0,0,0,.04)'} />
+        {!!state.duration && (
+          <Rail value={(state.time || 0) / state.duration} color={seek.isSliding ? `rgba(${accent[0]},${accent[1]},${accent[2]},.5)` : `rgb(${accent[0]},${accent[1]},${accent[2]})`} />
         )}
         {!!seek.isSliding && (
-          <Rail value={seek.value} color={'rgba(0,0,0,.04)'} />
+          <Rail value={seek.value} color={`rgba(${accent[0]},${accent[1]},${accent[2]},.6)`} />
         )}
       </span>
     </span>

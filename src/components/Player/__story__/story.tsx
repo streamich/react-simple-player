@@ -4,6 +4,7 @@ import {Player, PlayerState} from '..';
 
 const mp3 = [
   'https://files.freemusicarchive.org/storage-freemusicarchive-org/music/blocSonic/Flex_Vector/Born_Ready/Flex_Vector_-_Born_Ready.mp3',
+  'https://file-examples.com/wp-content/uploads/2017/11/file_example_MP3_700KB.mp3',
 ];
 
 const Demo = () => {
