@@ -1,12 +1,15 @@
 import * as React from 'react';
 import {rule} from 'p4-css';
 import useAudio from 'react-use/lib/useAudio';
+import useSlider from 'react-use/lib/useSlider';
 import {HTMLMediaState, HTMLMediaControls} from 'react-use/lib/util/createHTMLMediaHook';
 import IconPlay from '../../icons/Play';
 import IconPause from '../../icons/Pause';
+import IconVolume from '../../icons/Volume';
+import IconMuted from '../../icons/Muted';
 import { Rail } from '../Rail';
 
-const {useEffect} = React;
+const {useRef, useEffect} = React;
 
 export const defaultHeight = 64;
 export const railHeight = 8;
@@ -23,6 +26,8 @@ const blockClass = rule({
 });
 
 const playButtonClass = rule({
+  d: 'flex',
+  alignItems: 'center',
   h: '100%',
   pad: '0 16px',
   cur: 'pointer',
@@ -49,6 +54,21 @@ const railClass = rule({
   pos: 'relative',
   bdrad: '2px',
   ov: 'hidden',
+});
+
+const volumeButtonClass = rule({
+  d: 'flex',
+  alignItems: 'center',
+  h: '100%',
+  pad: '0 16px',
+  cur: 'pointer',
+  mar: 0,
+  bd: 0,
+  bg: 'transparent',
+  '& svg': {
+    w: '18px',
+    h: '18px',
+  },
 });
 
 export interface PlayerProps {
@@ -113,6 +133,12 @@ export const Player: React.FC<PlayerProps> = ({
     src,
     autoPlay: !!autoPlay,
   });
+  const seekAreaRef = useRef<HTMLSpanElement>(null);
+  const seek = useSlider(seekAreaRef, {
+    onScrubStop: () => {
+      alert(seek.value);
+    },
+  });
 
   if (stateRef) stateRef.current = state;
   if (controlsRef) controlsRef.current = controls;
@@ -146,22 +172,35 @@ export const Player: React.FC<PlayerProps> = ({
     </button>
   );
 
-  const seek = (
-    <span className={seekAreaClass}>
+  const seekArea = (
+    <span ref={seekAreaRef} className={seekAreaClass}>
       <span className={railClass}>
         <Rail value={1} color={'rgba(0,0,0,.04)'} />
-        {!!state.duration && (
+        {!!state.duration && !seek.isSliding && (
           <Rail value={(state.time || 0) / state.duration} color={'rgba(0,0,0,.04)'} />
+        )}
+        {!!seek.isSliding && (
+          <Rail value={seek.value} color={'rgba(0,0,0,.04)'} />
         )}
       </span>
     </span>
+  );
+
+  const volumeButton = (
+    <button className={volumeButtonClass} onClick={() => {
+      if (state.muted) controls.unmute();
+      else controls.mute();
+    }}>
+      {state.muted || !state.volume ? <IconMuted /> : <IconVolume />}
+    </button>
   );
 
   return (
     <span className={blockClass} style={style}>
       {audio}
       {mainButton}
-      {seek}
+      {seekArea}
+      {volumeButton}
     </span>
   );
 };
