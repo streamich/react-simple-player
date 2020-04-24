@@ -3,6 +3,7 @@ import {rule} from 'p4-css';
 import useAudio from 'react-use/lib/useAudio';
 import {HTMLMediaState, HTMLMediaControls} from 'react-use/lib/util/createHTMLMediaHook';
 import IconPlay from '../../icons/Play';
+import IconPause from '../../icons/Pause';
 
 const {useEffect} = React;
 
@@ -76,7 +77,7 @@ export const Player: React.FC<PlayerProps> = ({src, autoPlay, controls: controls
         if (state.paused) controls.play();
         else controls.pause();
       }}>
-        <IconPlay />
+        {state.paused ? <IconPlay /> : <IconPause />}
       </button>
     </div>
   );
