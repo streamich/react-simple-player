@@ -11,6 +11,7 @@ import {Rail} from '../Rail';
 import {RailWrap} from '../RailWrap';
 import {Volume} from '../Volume';
 import createColorManager from './createColorManager';
+import formatTime from './formatTime';
 
 const {useRef, useEffect, useState, useMemo} = React;
 
@@ -43,11 +44,29 @@ const playButtonClass = rule({
 });
 
 const seekAreaClass = rule({
+  pos: 'relative',
   d: 'flex',
   flex: '1 1 100%',
   alignItems: 'center',
   h: '100%',
   cur: 'pointer',
+});
+
+const tooltipClass = rule({
+  pos: 'absolute',
+  top: '-8px',
+  left: 0,
+  op: .8,
+});
+
+const tooltipInnerClass = rule({
+  d: 'inline-block',
+  mar: '0 0 0 -50%',
+  pad: '4px 8px',
+  fz: '12px',
+  ff: 'sans-serif',
+  bdrad: '3px',
+  whiteSpace: 'nowrap',
 });
 
 const volumeButtonClass = rule({
@@ -65,14 +84,6 @@ const volumeButtonClass = rule({
   },
 });
 
-const volumeSliderClass = rule({
-  d: 'flex',
-  flex: '0 0 100px',
-  w: '100px',
-  h: '100%',
-  alignItems: 'center',
-  cur: 'pointer',
-});
 
 export interface PlayerProps {
   /**
@@ -208,6 +219,13 @@ export const Player: React.FC<PlayerProps> = ({
           <Rail value={seek.value} color={`rgba(${accent[0]},${accent[1]},${accent[2]},.6)`} />
         )}
       </RailWrap>
+      {!!state.duration && hovered && (
+        <span className={tooltipClass} style={{left: seek.isSliding ? `${100 * seek.value}%` : `${100 * state.time / state.duration}%`}}>
+          <span className={tooltipInnerClass} style={{background: '#000', color: '#fff'}}>
+            {seek.isSliding ? formatTime(seek.value * state.duration) : formatTime(state.time)} / {formatTime(state.duration)}
+          </span>
+        </span>
+      )}
     </span>
   );
 
