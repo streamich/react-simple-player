@@ -27,6 +27,14 @@ const blockClass = rule({
   bg: '#eee',
   h: defaultHeight + 'px',
   bdrad: '4px',
+  /*
+  '& button': {
+    op: .9,
+  },
+  '& button:hover': {
+    op: 1,
+  },
+  */
 });
 
 const playButtonClass = rule({

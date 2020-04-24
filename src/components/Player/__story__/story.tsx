@@ -57,3 +57,27 @@ storiesOf('components/Player', module)
       </div>
     )
   })
+  .add('Grey scale', () => {
+    return (
+      <div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={40} grey={[0, 0, 0]} />
+        </div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={40} grey={[50, 50, 50]} />
+        </div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={40} grey={[100, 100, 100]} />
+        </div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={40} grey={[150, 150, 150]} />
+        </div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={40} grey={[200, 200, 200]} />
+        </div>
+        <div style={{padding: 16}}>
+          <Player src={mp3[0]} height={40} grey={[250, 250, 250]} />
+        </div>
+      </div>
+    )
+  })
