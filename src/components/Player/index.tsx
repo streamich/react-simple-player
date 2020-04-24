@@ -8,7 +8,7 @@ import { Rail } from '../Rail';
 
 const {useEffect} = React;
 
-export const height = 64;
+export const defaultHeight = 64;
 export const railHeight = 8;
 
 export type PlayerState = HTMLMediaState;
@@ -18,12 +18,12 @@ const blockClass = rule({
   d: 'flex',
   alignItems: 'center',
   bg: '#eee',
-  h: height + 'px',
+  h: defaultHeight + 'px',
   bdrad: '4px',
 });
 
 const playButtonClass = rule({
-  h: height + 'px',
+  h: '100%',
   pad: '0 16px',
   cur: 'pointer',
   mar: 0,
@@ -39,7 +39,7 @@ const seekAreaClass = rule({
   d: 'flex',
   flex: '1 1 100%',
   alignItems: 'center',
-  h: height + 'px',
+  h: '100%',
 });
 
 const railClass = rule({
@@ -66,6 +66,11 @@ export interface PlayerProps {
    * Accent color 3-tuple of numbers from 0 to 255, representing RGB color.
    */
   accent?: [number, number, number];
+
+  /**
+   * Player height in px.
+   */
+  height?: number;
 
   /**
    * Whether to autoplay the audio on mount.
@@ -95,6 +100,7 @@ export interface PlayerProps {
 
 export const Player: React.FC<PlayerProps> = ({
   src,
+  height = defaultHeight,
   grey = 250,
   accent = [255, 0, 0],
   autoPlay,
@@ -123,6 +129,10 @@ export const Player: React.FC<PlayerProps> = ({
   const playIconStyle: React.CSSProperties = {
     fill: `rgba(${accent[0]},${accent[1]},${accent[2]},.9)`,
   };
+
+  if (height !== defaultHeight) {
+    style.height = height;
+  }
 
   const mainButton = (
     <button

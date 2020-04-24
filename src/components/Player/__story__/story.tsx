@@ -12,7 +12,7 @@ const Demo = () => {
   return (
     <div>
       <div>
-        <Player src={mp3[0]} autoPlay onState={setState} />
+        <Player src={mp3[0]} autoPlay onState={setState} height={40} />
       </div>
       <div>
         <pre>{JSON.stringify(state, null, 4)}</pre>
