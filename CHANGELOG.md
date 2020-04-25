@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/streamich/react-simple-player/compare/v1.0.2...v1.0.3) (2020-04-25)
+
+
+### Bug Fixes
+
+* 🐛 stretch full width ([82d4b71](https://github.com/streamich/react-simple-player/commit/82d4b710788989140620af242b7114fbcc23df30))
+
 ## [1.0.2](https://github.com/streamich/react-simple-player/compare/v1.0.1...v1.0.2) (2020-04-25)
 
 
