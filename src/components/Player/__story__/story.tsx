@@ -81,3 +81,17 @@ storiesOf('components/Player', module)
       </div>
     )
   })
+  .add('in flex', () => {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          width: '100%',
+        }}
+      >
+        <Player src={mp3[0]} height={40} grey={[0, 0, 0]} />
+      </div>
+    )
+  })
