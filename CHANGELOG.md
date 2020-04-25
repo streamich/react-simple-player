@@ -1,3 +1,10 @@
+## [1.0.2](https://github.com/streamich/react-simple-player/compare/v1.0.1...v1.0.2) (2020-04-25)
+
+
+### Bug Fixes
+
+* 🐛 move React to peer dependencies ([a0f0501](https://github.com/streamich/react-simple-player/commit/a0f050151e16a2d9424e2725a342bb11fa1792e2))
+
 ## [1.0.1](https://github.com/streamich/react-simple-player/compare/v1.0.0...v1.0.1) (2020-04-24)
 
 
