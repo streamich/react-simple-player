@@ -13,9 +13,5 @@ const railClass = rule({
 });
 
 export const RailWrap: React.FC = ({children}) => {
-  return (
-    <span className={railClass}>
-      {children}
-    </span>
-  );
+  return <span className={railClass}>{children}</span>;
 };

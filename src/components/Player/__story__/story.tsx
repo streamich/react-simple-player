@@ -46,7 +46,7 @@ storiesOf('components/Player', module)
           <Player src={mp3[0]} height={128} />
         </div>
       </div>
-    )
+    );
   })
   .add('Dark mode', () => {
     return (
@@ -55,7 +55,7 @@ storiesOf('components/Player', module)
           <Player src={mp3[0]} height={48} grey={[30, 32, 34]} />
         </div>
       </div>
-    )
+    );
   })
   .add('Grey scale', () => {
     return (
@@ -79,7 +79,7 @@ storiesOf('components/Player', module)
           <Player src={mp3[0]} height={40} grey={[250, 250, 250]} />
         </div>
       </div>
-    )
+    );
   })
   .add('in flex', () => {
     return (
@@ -93,5 +93,5 @@ storiesOf('components/Player', module)
       >
         <Player src={mp3[0]} height={40} grey={[0, 0, 0]} />
       </div>
-    )
-  })
+    );
+  });

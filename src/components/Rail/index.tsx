@@ -24,7 +24,5 @@ export const Rail: React.FC<RailProps> = ({color = 'red', value, skip}) => {
     style.marginLeft = `${skip}%`;
   }
 
-  return (
-    <span className={blockClass} style={style} />
-  );
+  return <span className={blockClass} style={style} />;
 };

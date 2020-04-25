@@ -56,7 +56,7 @@ const seekAreaClass = rule({
 
 const tooltipClass = rule({
   pos: 'absolute',
-  op: .9,
+  op: 0.9,
 });
 
 const tooltipInnerClass = rule({
@@ -91,7 +91,6 @@ const volumeButtonClass = rule({
     h: '18px',
   },
 });
-
 
 export interface PlayerProps {
   /**
@@ -165,10 +164,10 @@ export const Player: React.FC<PlayerProps> = ({
     autoPlay: !!autoPlay,
   });
 
-  const latestState = useRef<PlayerState>(state)
+  const latestState = useRef<PlayerState>(state);
   latestState.current = state;
 
-  const latestControls = useRef<PlayerControls>(controls)
+  const latestControls = useRef<PlayerControls>(controls);
   latestControls.current = controls;
 
   const seekAreaRef = useRef<HTMLSpanElement>(null);
@@ -192,7 +191,7 @@ export const Player: React.FC<PlayerProps> = ({
   };
 
   const playIconStyle: React.CSSProperties = {
-    fill: color.contrast(.85),
+    fill: color.contrast(0.85),
     // fill: `rgba(${accent[0]},${accent[1]},${accent[2]},.9)`,
   };
 
@@ -202,34 +201,47 @@ export const Player: React.FC<PlayerProps> = ({
 
   const mainButton = (
     <button
-        className={playButtonClass}
-        onClick={() => {
-          if (state.paused) controls.play();
-          else controls.pause();
-        }}
-      >
-      {state.paused ? <IconPlay style={playIconStyle} /> : <IconPause style={{fill: color.contrast(.85)}} />}
+      className={playButtonClass}
+      onClick={() => {
+        if (state.paused) controls.play();
+        else controls.pause();
+      }}
+    >
+      {state.paused ? <IconPlay style={playIconStyle} /> : <IconPause style={{fill: color.contrast(0.85)}} />}
     </button>
   );
 
   const seekArea = (
     <span ref={seekAreaRef} className={seekAreaClass}>
       <RailWrap>
-        <Rail value={1} color={color.contrast(.08)} />
-        {!!state.duration && !!state.buffered && (
-          state.buffered.map(({start, end}: {start: number, end: number}) => (
-            <Rail value={(end - start) / state.duration} skip={start / state.duration} color={color.contrast(.08)} />
-          ))
-        )}
+        <Rail value={1} color={color.contrast(0.08)} />
+        {!!state.duration &&
+          !!state.buffered &&
+          state.buffered.map(({start, end}: {start: number; end: number}) => (
+            <Rail value={(end - start) / state.duration} skip={start / state.duration} color={color.contrast(0.08)} />
+          ))}
         {!!state.duration && (
-          <Rail value={(state.time || 0) / state.duration} color={state.paused ? color.shade(.4) : seek.isSliding ? `rgba(${accent[0]},${accent[1]},${accent[2]},.5)` : `rgb(${accent[0]},${accent[1]},${accent[2]})`} />
+          <Rail
+            value={(state.time || 0) / state.duration}
+            color={
+              state.paused
+                ? color.shade(0.4)
+                : seek.isSliding
+                ? `rgba(${accent[0]},${accent[1]},${accent[2]},.5)`
+                : `rgb(${accent[0]},${accent[1]},${accent[2]})`
+            }
+          />
         )}
-        {!!seek.isSliding && (
-          <Rail value={seek.value} color={`rgba(${accent[0]},${accent[1]},${accent[2]},.6)`} />
-        )}
+        {!!seek.isSliding && <Rail value={seek.value} color={`rgba(${accent[0]},${accent[1]},${accent[2]},.6)`} />}
       </RailWrap>
       {!!state.duration && seek.isSliding && (
-        <span className={tooltipClass} style={{top: ((-30 + (height / 2)) + 'px'), left: seek.isSliding ? `${100 * seek.value}%` : `${100 * state.time / state.duration}%`}}>
+        <span
+          className={tooltipClass}
+          style={{
+            top: -30 + height / 2 + 'px',
+            left: seek.isSliding ? `${100 * seek.value}%` : `${(100 * state.time) / state.duration}%`,
+          }}
+        >
           <span className={tooltipInnerClass} style={{background: '#000', color: '#fff'}}>
             {formatTime(seek.value * state.duration)}
           </span>
@@ -239,21 +251,33 @@ export const Player: React.FC<PlayerProps> = ({
   );
 
   const volumeButton = (
-    <button className={volumeButtonClass} onClick={() => {
-      if (state.muted) controls.unmute();
-      else controls.mute();
-    }}>
-      {state.muted || !state.volume ? <IconMuted style={{fill: color.contrast(.85)}} /> : <IconVolume style={{fill: color.contrast(.85)}} />}
+    <button
+      className={volumeButtonClass}
+      onClick={() => {
+        if (state.muted) controls.unmute();
+        else controls.mute();
+      }}
+    >
+      {state.muted || !state.volume ? (
+        <IconMuted style={{fill: color.contrast(0.85)}} />
+      ) : (
+        <IconVolume style={{fill: color.contrast(0.85)}} />
+      )}
     </button>
   );
 
   return (
-    <span className={blockClass} style={style} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+    <span
+      className={blockClass}
+      style={style}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
       {audio}
       {mainButton}
       {seekArea}
       {!!state.duration && (
-        <span className={timeClass} style={{color: color.contrast(.85)}}>
+        <span className={timeClass} style={{color: color.contrast(0.85)}}>
           {formatTime(state.time) + ' / ' + formatTime(state.duration)}
         </span>
       )}
@@ -262,8 +286,8 @@ export const Player: React.FC<PlayerProps> = ({
         <Volume
           value={state.volume || 0}
           onChange={(value) => controls.volume(value)}
-          bg={color.contrast(.06)}
-          rail={color.contrast(.12)}
+          bg={color.contrast(0.06)}
+          rail={color.contrast(0.12)}
         />
       )}
     </span>
