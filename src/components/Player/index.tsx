@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {rule} from 'p4-css';
+import {rule, nano} from 'p4-css';
 import useAudio from 'react-use/lib/useAudio';
 import useSlider from 'react-use/lib/useSlider';
-import {HTMLMediaState, HTMLMediaControls} from 'react-use/lib/util/createHTMLMediaHook';
+import {HTMLMediaState, HTMLMediaControls} from 'react-use/lib/factory/createHTMLMediaHook';
 import IconPlay from '../../icons/Play';
 import IconPause from '../../icons/Pause';
 import IconVolume from '../../icons/Volume';
@@ -39,6 +39,7 @@ const playButtonClass = rule({
   mar: 0,
   bd: 0,
   bg: 'transparent',
+  bdrad: '4px',
   '& svg': {
     w: '18px',
     h: '18px',
@@ -52,6 +53,7 @@ const seekAreaClass = rule({
   alignItems: 'center',
   h: '100%',
   cur: 'pointer',
+  cursor: 'ew-resize',
 });
 
 const tooltipClass = rule({
@@ -86,6 +88,7 @@ const volumeButtonClass = rule({
   mar: 0,
   bd: 0,
   bg: 'transparent',
+  bdrad: '4px',
   '& svg': {
     w: '18px',
     h: '18px',
@@ -163,6 +166,22 @@ export const Player: React.FC<PlayerProps> = ({
     src,
     autoPlay: !!autoPlay,
   });
+  const [seekHover, setSeekHover] = React.useState(false);
+
+  const buttonHoverClass = nano.cache!({
+    svg: {
+      fill: color.contrast(0.8),
+    },
+    '&:hover': {
+      bg: color.contrast(0.02),
+      svg: {
+        fill: color.contrast(1),
+      },
+    },
+    '&:active': {
+      bg: color.contrast(0.04),
+    },
+  });
 
   const latestState = useRef<PlayerState>(state);
   latestState.current = state;
@@ -201,20 +220,20 @@ export const Player: React.FC<PlayerProps> = ({
 
   const mainButton = (
     <button
-      className={playButtonClass}
+      className={playButtonClass + buttonHoverClass}
       onClick={() => {
         if (state.paused) controls.play();
         else controls.pause();
       }}
     >
-      {state.paused ? <IconPlay style={playIconStyle} /> : <IconPause style={{fill: color.contrast(0.85)}} />}
+      {state.paused ? <IconPlay style={playIconStyle} /> : <IconPause />}
     </button>
   );
 
   const seekArea = (
-    <span ref={seekAreaRef} className={seekAreaClass}>
+    <span ref={seekAreaRef} className={seekAreaClass} onMouseEnter={() => setSeekHover(true)} onMouseLeave={() => setSeekHover(false)}>
       <RailWrap>
-        <Rail value={1} color={color.contrast(0.08)} />
+        <Rail value={1} color={seekHover ? color.contrast(0.12) : color.contrast(0.08)} />
         {!!state.duration &&
           !!state.buffered &&
           state.buffered.map(({start, end}: {start: number; end: number}) => (
@@ -252,7 +271,7 @@ export const Player: React.FC<PlayerProps> = ({
 
   const volumeButton = (
     <button
-      className={volumeButtonClass}
+      className={volumeButtonClass + buttonHoverClass}
       onClick={() => {
         if (state.muted) controls.unmute();
         else controls.mute();
@@ -288,6 +307,7 @@ export const Player: React.FC<PlayerProps> = ({
           onChange={(value) => controls.volume(value)}
           bg={color.contrast(0.06)}
           rail={color.contrast(0.12)}
+          railHover={color.contrast(0.18)}
         />
       )}
     </span>

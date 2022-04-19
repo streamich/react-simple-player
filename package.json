@@ -34,8 +34,8 @@
   },
   "keywords": [],
   "dependencies": {
-    "p4-css": "^1.5.1",
-    "react-use": "^14.2.0"
+    "p4-css": "*",
+    "react-use": "*"
   },
   "peerDependencies": {
     "react": "*",
