@@ -1,3 +1,11 @@
+# [1.1.0](https://github.com/streamich/react-simple-player/compare/v1.0.3...v1.1.0) (2022-04-19)
+
+
+### Features
+
+* 🎸 add hover effects to buttons ([d3f143f](https://github.com/streamich/react-simple-player/commit/d3f143fd625e4b972f9243dd8751f53bc5681a33))
+* 🎸 add hover effects to rails and change cursor style ([96a3c20](https://github.com/streamich/react-simple-player/commit/96a3c208b8e86cf8af1c8af67b3fb1e342999205))
+
 ## [1.0.3](https://github.com/streamich/react-simple-player/compare/v1.0.2...v1.0.3) (2020-04-25)
 
 
