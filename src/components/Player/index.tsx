@@ -53,6 +53,7 @@ const seekAreaClass = rule({
   alignItems: 'center',
   h: '100%',
   cur: 'pointer',
+  cursor: 'ew-resize',
 });
 
 const tooltipClass = rule({
@@ -165,6 +166,7 @@ export const Player: React.FC<PlayerProps> = ({
     src,
     autoPlay: !!autoPlay,
   });
+  const [seekHover, setSeekHover] = React.useState(false);
 
   const buttonHoverClass = nano.cache!({
     svg: {
@@ -229,9 +231,9 @@ export const Player: React.FC<PlayerProps> = ({
   );
 
   const seekArea = (
-    <span ref={seekAreaRef} className={seekAreaClass}>
+    <span ref={seekAreaRef} className={seekAreaClass} onMouseEnter={() => setSeekHover(true)} onMouseLeave={() => setSeekHover(false)}>
       <RailWrap>
-        <Rail value={1} color={color.contrast(0.08)} />
+        <Rail value={1} color={seekHover ? color.contrast(0.12) : color.contrast(0.08)} />
         {!!state.duration &&
           !!state.buffered &&
           state.buffered.map(({start, end}: {start: number; end: number}) => (
@@ -305,6 +307,7 @@ export const Player: React.FC<PlayerProps> = ({
           onChange={(value) => controls.volume(value)}
           bg={color.contrast(0.06)}
           rail={color.contrast(0.12)}
+          railHover={color.contrast(0.18)}
         />
       )}
     </span>
