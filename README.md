@@ -1,7 +1,7 @@
 # react-simple-player
 
 
-![](https://user-images.githubusercontent.com/9773803/80277360-b548b180-86ee-11ea-9b25-3eaa10027ca6.png)
+[![](https://user-images.githubusercontent.com/9773803/164186454-340639d7-52c7-4f7e-a45d-9eb9adc80fc9.gif)](https://streamich.github.io/react-simple-player)
 
 ```ts
 import {Player} from 'react-simple-player';
