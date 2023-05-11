@@ -236,8 +236,8 @@ export const Player: React.FC<PlayerProps> = ({
         <Rail value={1} color={seekHover ? color.contrast(0.12) : color.contrast(0.08)} />
         {!!state.duration &&
           !!state.buffered &&
-          state.buffered.map(({start, end}: {start: number; end: number}) => (
-            <Rail value={(end - start) / state.duration} skip={start / state.duration} color={color.contrast(0.08)} />
+          state.buffered.map(({start, end}: {start: number; end: number}, id: number) => (
+            <Rail key={id} value={(end - start) / state.duration} skip={start / state.duration} color={color.contrast(0.08)} />
           ))}
         {!!state.duration && (
           <Rail
